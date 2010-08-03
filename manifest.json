@@ -7,6 +7,13 @@
 	  "48": "icon-48.png",
 	  "128": "icon-128.png"
   },
+  "content_scripts": {
+    "matches": [
+      "http://*twitter.com/*",
+      "https://*twitter.com/*"
+    ],
+    "js": ["contentscript.js"]
+  },
   "permissions": [
     "https://www.instapaper.com/"
   ]
