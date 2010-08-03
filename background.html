@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+  <script>
+    /**
+     * Sends a XHR to Instapaper to add the given URL to the user's Instapaper
+     * queue.
+     *
+     * @returns the status code of Instapaper's response, or null if there was none.
+     */
+    function addToInstapaper(url) {
+      // TODO
+      return 200;
+    }
+  
+    /**
+     * Accepts a request and parses it for known actions.
+     *
+     * @param {Object} request Data sent in the request
+     * @param {Object} sender Origin of the request
+     * @param {Function} callback Method to call after the request completes.
+     */
+    function onRequest(request, sender, callback) {
+      if (request.action == 'addToInstapaper' && request.url) {
+        var status = addToInstapaper(request.url);
+        callback(status);
+      }
+    };
+    
+    // Register request handler
+    chrome.extension.onRequest.addListener(onRequest);
+  </script>
+</body>
+</html>
