@@ -17,14 +17,15 @@
     /**
      * Accepts a request and parses it for known actions.
      *
-     * @param {Object} request Data sent in the request
-     * @param {Object} sender Origin of the request
+     * @param {Object} request Data sent in the request. Must contain
+     *                         'action', 'url', and 'element' attributes.
+     * @param {Object} sender Origin of the request.
      * @param {Function} callback Method to call after the request completes.
      */
     function onRequest(request, sender, callback) {
       if (request.action == 'addToInstapaper' && request.url) {
         var status = addToInstapaper(request.url);
-        callback(status);
+        callback(status, request.element);
       }
     };
     
