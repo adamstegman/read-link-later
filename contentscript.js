@@ -25,7 +25,6 @@ function findActionsForTweetsWithUrls() {
     var actionsHoverList = statusBody.getElementsByClassName('actions-hover');
     if (!actionsHoverList.length) continue;
     actionsHoverList = actionsHoverList[0];
-    console.log(actionsHoverList);
     
     actionsForStatusesWithUrls.push(actionsHoverList);
   }
