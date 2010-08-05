@@ -9,38 +9,23 @@ function findActionsForTweetsWithUrls() {
   var timeline = document.getElementById("timeline");
   if (!timeline) return; // need a timeline
   var actionsForStatusesWithUrls = new Array();
-  var statuses = timeline.childNodes;
+  var statuses = timeline.getElementsByClassName('status');
   var statusesLength = statuses.length;
   for (var s = 0; s < statusesLength; s++) {
-    var status = statuses.item(s);
+    var status = statuses[s];
     
     // Find the status body
-    var statusBody;
-    var statusChildren = status.childNodes;
-    var statusChildrenLength = statusChildren.length;
-    for (var c = 0; c < statusChildrenLength; c++) {
-      var child = statusChildren.item(c);
-      if (child.className == "status-body") {
-        statusBody = child;
-        break;
-      }
-    }
-    if (!statusBody) continue;
+    var statusBody = status.getElementsByClassName('status-body');
+    if (!statusBody.length) continue;
+    statusBody = statusBody[0];
     
     // TODO: Skip the status if it doesn't have a URL
     
     // Find the actions hover list (Reply, Retweet)
-    var actionsHoverList;
-    var statusBodyChildren = statusBody.childNodes;
-    var statusBodyChildrenLength = statusBodyChildren.length;
-    for (var c = 0; c < statusBodyChildrenLength; c++) {
-      var child = statusBodyChildren.item(c);
-      if (child.className == "actions-hover") {
-        actionsHoverList = child;
-        break;
-      }
-    }
-    if (!actionsHoverList) continue;
+    var actionsHoverList = statusBody.getElementsByClassName('actions-hover');
+    if (!actionsHoverList.length) continue;
+    actionsHoverList = actionsHoverList[0];
+    console.log(actionsHoverList);
     
     actionsForStatusesWithUrls.push(actionsHoverList);
   }
