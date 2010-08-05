@@ -17,7 +17,7 @@ function findTweetsWithUrls() {
     var statusChildrenLength = statusChildren.length;
     for (var c = 0; c < statusChildrenLength; c++) {
       var child = statusChildren.item(c);
-      if (child.classname == "status-body") {
+      if (child.className == "status-body") {
         statusBody = child;
         break;
       }
@@ -32,7 +32,7 @@ function findTweetsWithUrls() {
     var statusBodyChildrenLength = statusBodyChildren.length;
     for (var c = 0; c < statusBodyChildrenLength; c++) {
       var child = statusBodyChildren.item(c);
-      if (child.classname == "actions-hover") {
+      if (child.className == "actions-hover") {
         actionsHoverList = child;
         break;
       }
