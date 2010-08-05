@@ -1,11 +1,14 @@
 /**
- * Parses the page's DOM for tweet elements containing URLs. For each tweet
- * containing a URL, inserts a "Read Later" link that will add the URL in
- * the tweet to the user's Instapaper queue.
+ * Parses the page's DOM for tweet elements containing URLs and returns an
+ * Array of their action lists. Each element of the return Array can have a
+ * "Read Later" link inserted.
+ *
+ * @return Array of Node, ul.actions-hover, for tweets with URLs.
  */
-function findTweetsWithUrls() {
+function findActionsForTweetsWithUrls() {
   var timeline = document.getElementById("timeline");
   if (!timeline) return; // need a timeline
+  var statusesWithUrls = new Array();
   var statuses = timeline.childNodes;
   var statusesLength = statuses.length;
   for (var s = 0; s < statusesLength; s++) {
@@ -39,8 +42,9 @@ function findTweetsWithUrls() {
     }
     if (!actionsHoverList) continue;
     
-    prependReadLaterLinkTo(actionsHoverList);
+    actionsForStatusesWithUrls.push(actionsHoverList);
   }
+  return actionsForStatusesWithUrls;
 }
 
 /**
