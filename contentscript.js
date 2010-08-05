@@ -66,7 +66,9 @@ function prependReadLaterLinkTo(listElement) {
   span.appendChild(link);
   
   var li = document.createElement('li');
-  li.insertBefore(span, li.firstChild);
+  li.appendChild(span);
+  
+  listElement.insertBefore(li, listElement.firstChild);
 }
 
 /**
