@@ -8,7 +8,7 @@
 function findActionsForTweetsWithUrls() {
   var timeline = document.getElementById("timeline");
   if (!timeline) return; // need a timeline
-  var statusesWithUrls = new Array();
+  var actionsForStatusesWithUrls = new Array();
   var statuses = timeline.childNodes;
   var statusesLength = statuses.length;
   for (var s = 0; s < statusesLength; s++) {
