@@ -35,8 +35,8 @@ function findActionsForTweetsWithUrls() {
 /**
  * Prepends a list item with a "Read Later" link to the given list element.
  *
- * @param {Node} listElement The ol or ul element to prepend the "Read Later"
- *                           list item to.
+ * @param {HTMLElement} listElement The ol or ul element to prepend the "Read
+ *                                  Later" list item to.
  */
 function prependReadLaterLinkTo(listElement) {
   // Create the Read Later link
@@ -53,6 +53,7 @@ function prependReadLaterLinkTo(listElement) {
   var li = document.createElement('li');
   li.appendChild(span);
   
+  // FIXME
   listElement.insertBefore(li, listElement.firstChild);
 }
 
