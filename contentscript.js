@@ -52,7 +52,6 @@ function prependReadLaterLinkTo(listElement) {
   var li = document.createElement('li');
   li.appendChild(span);
   
-  // FIXME
   listElement.insertBefore(li, listElement.firstChild);
 }
 
