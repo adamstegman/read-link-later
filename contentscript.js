@@ -81,7 +81,6 @@ function onInstapaperReturn(status, element) {
 }
 
 // Prepend a "Read Later" link to the action lists of tweets with URLs.
-actionLists = findActionsForTweetsWithUrls();
-for (list in actionLists) {
+findActionsForTweetsWithUrls().forEach(function (list) {
   prependReadLaterLinkTo(list);
-}
+});
