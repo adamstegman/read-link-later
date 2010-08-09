@@ -82,7 +82,13 @@ function sendAddToInstapaperRequest(event) {
  * @param {Object} response The response object sent by the event handler.
  */
 function onInstapaperReturn(response) {
-  console.log("response", response);
+  if (response && response.status && response.status == 200 && response.senderId) {
+    var link = document.getElementById(response.senderId);
+    link.onclick = null;
+    link.onmouseover = null;
+    link.onmouseout = null;
+    link.previousSibling.style.backgroundImage = "url(" + chrome.extension.getURL("starred.png") + ")";
+  }
 }
 
 // Prepend a "Read Later" link to the action lists of tweets with URLs.
