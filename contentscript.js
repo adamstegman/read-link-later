@@ -53,7 +53,9 @@ var tweets = document.getElementsByClassName('status-body'),
     tweetsLength = tweets.length;
 for (var i = 0; i < tweetsLength; i++) {
   var statusBody = tweets[i];
-  // TODO: Skip the status if it doesn't have a URL
+  // Skip the status if it doesn't have a URL
+  var links = statusBody.getElementsByClassName('tweet-url web');
+  if (!links.length) continue;
   
   // Find the actions hover list (Reply, Retweet)
   var actionsHoverList = statusBody.getElementsByClassName('actions-hover');
