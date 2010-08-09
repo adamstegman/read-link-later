@@ -13,10 +13,12 @@ function prependReadLaterLinkTo(listElement, linkId) {
   link.title = "Add to Instapaper";
   link.appendChild(document.createTextNode("Read Later"));
   link.onclick = sendAddToInstapaperRequest;
+  link.onmouseover = replaceBackgroundWithUnstarred;
+  link.onmouseout = replaceBackgroundWithFadedUnstarred;
   
   var iconSpan = document.createElement('span');
   iconSpan.className = "read-tweet-later-icon icon";
-  iconSpan.style.backgroundImage = "url(" + chrome.extension.getURL("unstarred-faded.png") + ")"
+  iconSpan.style.backgroundImage = "url(" + chrome.extension.getURL("unstarred-faded.png") + ")";
   
   var span = document.createElement('span');
   span.className = "read-tweet-later";
@@ -27,6 +29,20 @@ function prependReadLaterLinkTo(listElement, linkId) {
   li.appendChild(span);
   
   listElement.insertBefore(li, listElement.firstChild);
+}
+
+/**
+ */
+function replaceBackgroundWithUnstarred(event) {
+  var iconSpan = event.target.previousSibling;
+  iconSpan.style.backgroundImage = "url(" + chrome.extension.getURL("unstarred.png") + ")";
+}
+
+/**
+ */
+function replaceBackgroundWithFadedUnstarred(event) {
+  var iconSpan = event.target.previousSibling;
+  iconSpan.style.backgroundImage = "url(" + chrome.extension.getURL("unstarred-faded.png") + ")";
 }
 
 /**
