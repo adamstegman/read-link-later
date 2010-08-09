@@ -18,7 +18,7 @@ function prependReadLaterLinkTo(listElement, linkId) {
   
   var iconSpan = document.createElement('span');
   iconSpan.className = "read-tweet-later-icon icon";
-  iconSpan.style.backgroundImage = "url(" + chrome.extension.getURL("unstarred-faded.png") + ")";
+  iconSpan.style.backgroundImage = "url(" + chrome.extension.getURL("images/unstarred-faded.png") + ")";
   
   var span = document.createElement('span');
   span.className = "read-tweet-later";
@@ -39,7 +39,7 @@ function prependReadLaterLinkTo(listElement, linkId) {
  */
 function replaceBackgroundWithUnstarred(event) {
   var iconSpan = event.target.previousSibling;
-  iconSpan.style.backgroundImage = "url(" + chrome.extension.getURL("unstarred.png") + ")";
+  iconSpan.style.backgroundImage = "url(" + chrome.extension.getURL("images/unstarred.png") + ")";
 }
 
 /**
@@ -50,7 +50,7 @@ function replaceBackgroundWithUnstarred(event) {
  */
 function replaceBackgroundWithFadedUnstarred(event) {
   var iconSpan = event.target.previousSibling;
-  iconSpan.style.backgroundImage = "url(" + chrome.extension.getURL("unstarred-faded.png") + ")";
+  iconSpan.style.backgroundImage = "url(" + chrome.extension.getURL("images/unstarred-faded.png") + ")";
 }
 
 /**
@@ -87,7 +87,7 @@ function onInstapaperReturn(response) {
     link.onclick = null;
     link.onmouseover = null;
     link.onmouseout = null;
-    link.previousSibling.style.backgroundImage = "url(" + chrome.extension.getURL("starred.png") + ")";
+    link.previousSibling.style.backgroundImage = "url(" + chrome.extension.getURL("images/starred.png") + ")";
   }
 }
 
