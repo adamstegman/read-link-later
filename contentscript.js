@@ -30,11 +30,19 @@ function prependReadLaterLinkTo(listElement, linkId) {
  * @param {Event} event The Event object sent by the onclick event.
  */
 function sendAddToInstapaperRequest(event) {
-  chrome.extension.sendRequest({'action': 'addToInstapaper',
-                                'readLaterUrl': 'http://www.google.com/', // TODO
-                                'senderId': event.target.id},
-                               onInstapaperReturn);
   event.preventDefault();
+  
+  // Find URLs in tweet
+  // span.status-body > ul.actions-hover > li > span.read-tweet-later > a
+  var links = event.target.parentNode.parentNode.parentNode.parentNode.getElementsByClassName('tweet-url web'),
+      linksLength = links.length;
+  if (!linksLength) return;
+  for (var i = 0; i < linksLength; i++) {
+    chrome.extension.sendRequest({'action': 'addToInstapaper',
+                                  'readLaterUrl': links[i].href,
+                                  'senderId': event.target.id},
+                                 onInstapaperReturn);
+  }
 }
 
 /**
