@@ -14,8 +14,13 @@ function prependReadLaterLinkTo(listElement, linkId) {
   link.appendChild(document.createTextNode("Read Later"));
   link.onclick = sendAddToInstapaperRequest;
   
+  var iconSpan = document.createElement('span');
+  iconSpan.className = "read-tweet-later-icon icon";
+  iconSpan.style.backgroundImage = "url(" + chrome.extension.getURL("unstarred-faded.png") + ")"
+  
   var span = document.createElement('span');
   span.className = "read-tweet-later";
+  span.appendChild(iconSpan);
   span.appendChild(link);
   
   var li = document.createElement('li');

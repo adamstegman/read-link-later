@@ -14,7 +14,8 @@
         "http://*.twitter.com/*",
         "https://*.twitter.com/*"
       ],
-      "js": ["contentscript.js"]
+      "js": ["contentscript.js"],
+      "css": ["read-tweet-later.css"]
     }
   ],
   "permissions": [

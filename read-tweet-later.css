@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+.read-tweet-later {
+  line-height: 16px !important;
+}
+.read-tweet-later-icon {
+  cursor: pointer !important;
+  height: 15px !important;
+  margin-right: 1px !important;
+  width: 15px !important;
+}
