@@ -32,6 +32,10 @@ function prependReadLaterLinkTo(listElement, linkId) {
 }
 
 /**
+ * Replaces the background of the previous element with the regular unstarred
+ * image.
+ *
+ * @param {Event} event The Event object sent by the onmouseover event.
  */
 function replaceBackgroundWithUnstarred(event) {
   var iconSpan = event.target.previousSibling;
@@ -39,6 +43,10 @@ function replaceBackgroundWithUnstarred(event) {
 }
 
 /**
+ * Replaces the background of the previous element with the faded unstarred
+ * image.
+ *
+ * @param {Event} event The Event object sent by the onmouseout event.
  */
 function replaceBackgroundWithFadedUnstarred(event) {
   var iconSpan = event.target.previousSibling;
