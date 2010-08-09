@@ -84,11 +84,19 @@ function sendAddToInstapaperRequest(event) {
 function onInstapaperReturn(response) {
   if (response && response.status && response.status == 200 && response.senderId) {
     var link = document.getElementById(response.senderId);
-    link.onclick = null;
+    link.onclick = absolutelyNothing;
     link.onmouseover = null;
     link.onmouseout = null;
     link.previousSibling.style.backgroundImage = "url(" + chrome.extension.getURL("images/starred.png") + ")";
   }
+}
+
+/**
+ * Handles an event by making absolutely nothing happen. Calls
+ * Event.preventDefault.
+ */
+function absolutelyNothing(event) {
+  event.preventDefault();
 }
 
 // Prepend a "Read Later" link to the action lists of tweets with URLs.
