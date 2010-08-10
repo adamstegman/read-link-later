@@ -22,12 +22,44 @@
      * Reads the option fields and saves the values in localStorage.
      */
     function saveOptions() {
-      for (var i = 0, l = OPTIONS.length; i < l; i++) {
-        var id = OPTIONS[i],
-            val = document.getElementById(id).value;
-        localStorage.removeItem(id);
-        if (val) localStorage[id] = val;
+      var username = document.getElementById('username').value,
+          password = document.getElementById('password').value;
+      localStorage.removeItem('username');
+      localStorage.removeItem('password');
+      if (username) localStorage['username'] = username;
+      if (password) localStorage['password'] = password;
+      checkAuthentication(username, password);
+    }
+    
+    /**
+     * Calls Instapaper's authentication service with the provided username
+     * and password to validate them.
+     *
+     * @param {String} username The username to validate.
+     * @param {String} password (Optional) The password for the username.
+     */
+    function checkAuthentication(username, password) {
+      var auth = "",
+          xhr = new XMLHttpRequest();
+      if (username) {
+        auth += username + ":";
+        if (password) auth += password;
       }
+      if (!auth) return;
+      xhr.open("GET", "https://www.instapaper.com/api/authenticate", true);
+      xhr.setRequestHeader('Authorization', "Basic " + btoa(auth));
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 2) {
+          if (xhr.status == 200) {
+            // TODO: success
+          } else if (xhr.status == 403) {
+            // TODO: failure
+          } else {
+            // TODO: unknown
+          }
+        }
+      };
+      xhr.send();
     }
   </script>
 </head>
