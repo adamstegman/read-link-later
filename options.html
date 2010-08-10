@@ -1,0 +1,48 @@
+<html>
+<head>
+  <title>Read Tweet Later Options</title>
+  <script type="text/javascript">
+    /**
+     * An Array of the names of the options fields.
+     */
+    var OPTIONS = ['username', 'password'];
+    
+    /**
+     * Loads the options from localStorage and sets the fields.
+     */
+    function loadOptions() {
+      for (var i = 0, l = OPTIONS.length; i < l; i++) {
+        var id = OPTIONS[i],
+            val = localStorage[id];
+        if (val) document.getElementById(id).value = val;
+      }
+    }
+    
+    /**
+     * Reads the option fields and saves the values in localStorage.
+     */
+    function saveOptions() {
+      for (var i = 0, l = OPTIONS.length; i < l; i++) {
+        var id = OPTIONS[i],
+            val = document.getElementById(id).value;
+        localStorage.removeItem(id);
+        if (val) localStorage[id] = val;
+      }
+    }
+  </script>
+</head>
+<body onload="loadOptions()">
+  <h1>Read Tweet Later Options</h1>
+  <p>
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" />
+  </p>
+  <p>
+    <label for="password">Password (if you have one)</label>
+    <input type="password" name="password" id="password" />
+  </p>
+  <p>
+    <button id="submit" onclick="saveOptions()">Save</button>
+  </p>
+</body>
+</html>

@@ -18,6 +18,7 @@
       "css": ["read-tweet-later.css"]
     }
   ],
+  "options_page": "options.html",
   "permissions": [
     "https://www.instapaper.com/"
   ]
