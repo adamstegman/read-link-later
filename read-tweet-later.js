@@ -67,10 +67,10 @@ function sendAddToInstapaperRequest(event) {
       linksLength = links.length;
   if (!linksLength) return;
   for (var i = 0; i < linksLength; i++) {
-    chrome.extension.sendRequest({'action': 'addToInstapaper',
-                                  'readLaterUrl': links[i].href,
-                                  'senderId': event.target.id},
-                                 onInstapaperReturn);
+    request = {'action': 'addToInstapaper',
+               'readLaterUrl': links[i].href,
+               'senderId': event.target.id};
+    chrome.extension.sendRequest(request, onInstapaperReturn);
   }
 }
 
@@ -82,7 +82,7 @@ function sendAddToInstapaperRequest(event) {
  * @param {Object} response The response object sent by the event handler.
  */
 function onInstapaperReturn(response) {
-  if (response && response.status && response.status == 200 && response.senderId) {
+  if (response && response.status && response.status == 201 && response.senderId) {
     var link = document.getElementById(response.senderId);
     link.onclick = absolutelyNothing;
     link.onmouseover = null;

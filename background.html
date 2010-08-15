@@ -7,12 +7,41 @@
      * Sends a XHR to Instapaper to add the given URL to the user's Instapaper
      * queue.
      *
-     * @return the status code of Instapaper's response, or null if there was
-     *         none.
+     * @param {String} url The URL to add to Instapaper.
+     * @param {Function} callback The function to call when the request
+     *                            completes.
+     * @param {String} senderId (Optional) The id attribute of the sender
+     *                          HTMLElement.
      */
-    function addToInstapaper(url) {
-      // TODO
-      return 200;
+    function addToInstapaper(url, callback, senderId) {
+      var auth = "",
+          xhr = new XMLHttpRequest();
+      if (localStorage['username']) {
+        auth += localStorage['username'] + ":";
+        if (localStorage['password']) auth += localStorage['password'];
+      }
+      if (!auth) {
+        // If no authorization was given, pretend 403 Forbidden
+        response = new Object();
+        response.status = 403;
+        if (senderId) response.senderId = senderId;
+        callback(response);
+      }
+      params = "url=" + url;
+      xhr.open("POST", "https://www.instapaper.com/api/add", true);
+      xhr.setRequestHeader('Authorization', "Basic " + btoa(auth));
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.setRequestHeader("Content-Length", params.length);
+      xhr.setRequestHeader("Connection", "close");
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 2) {
+          response = new Object();
+          response.status = xhr.status;
+          if (senderId) response.senderId = senderId;
+          callback(response);
+        }
+      }
+      xhr.send(params);
     }
   
     /**
@@ -26,13 +55,7 @@
      */
     function onRequest(request, sender, callback) {
       if (request.action && request.action == 'addToInstapaper' && request.readLaterUrl) {
-        var status = addToInstapaper(request.readLaterUrl);
-        response = new Object();
-        response.status = status;
-        if (request.senderId) {
-          response.senderId = request.senderId;
-        }
-        callback(response);
+        addToInstapaper(request.readLaterUrl, callback, request.senderId);
       }
     };
     
