@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Read Tweet Later is a Google Chrome extension that will add a \"Read Later\" Instapaper link to each tweet in a twitter.com feed. The link will parse the tweet for a URL and add it to your Instapaper queue.",
   "icons": {
-	  "16": "images/icon-16.png",
-	  "48": "images/icon-48.png",
-	  "128": "images/icon-128.png"
+	  "16": "images/read-link-later-icon-16.png",
+	  "48": "images/read-link-later-icon-48.png",
+	  "128": "images/read-link-later-icon-128.png"
   },
   "background_page": "background.html",
   "content_scripts": [
