@@ -1,9 +1,9 @@
 @charset "UTF-8";
 
-.read-tweet-later {
+.read-link-later {
   line-height: 16px !important;
 }
-.read-tweet-later-icon {
+.read-link-later-icon {
   cursor: pointer !important;
   height: 15px !important;
   margin-right: 1px !important;

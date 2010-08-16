@@ -17,11 +17,11 @@ function prependReadLaterLinkTo(listElement, linkId) {
   link.onmouseout = replaceBackgroundWithFadedUnstarred;
   
   var iconSpan = document.createElement('span');
-  iconSpan.className = "read-tweet-later-icon icon";
+  iconSpan.className = "read-link-later-icon icon";
   iconSpan.style.backgroundImage = "url(" + chrome.extension.getURL("images/unstarred-faded.png") + ")";
   
   var span = document.createElement('span');
-  span.className = "read-tweet-later";
+  span.className = "read-link-later";
   span.appendChild(iconSpan);
   span.appendChild(link);
   
@@ -62,7 +62,7 @@ function sendAddToInstapaperRequest(event) {
   event.preventDefault();
   
   // Find URLs in tweet
-  // span.status-body > ul.actions-hover > li > span.read-tweet-later > a
+  // span.status-body > ul.actions-hover > li > span.read-link-later > a
   var links = event.target.parentNode.parentNode.parentNode.parentNode.getElementsByClassName('tweet-url web'),
       linksLength = links.length;
   if (!linksLength) return;
@@ -114,5 +114,5 @@ for (var i = 0; i < tweetsLength; i++) {
   actionsHoverList = actionsHoverList[0];
   
   prependReadLaterLinkTo(actionsHoverList,
-                         statusBody.parentNode.id.replace('status', 'read-tweet-later'));
+                         statusBody.parentNode.id.replace('status', 'read-link-later'));
 }
