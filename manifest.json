@@ -14,7 +14,7 @@
         "http://*.twitter.com/*",
         "https://*.twitter.com/*"
       ],
-      "js": ["read-link-later.js"],
+      "js": ["read-link-later.js"]
     }
   ],
   "options_page": "options.html",
