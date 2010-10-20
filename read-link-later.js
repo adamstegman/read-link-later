@@ -30,6 +30,18 @@ function prependReadLaterLinkTo(listElement, linkId) {
   span.appendChild(text);
   
   link.appendChild(span);
+  
+  // Mark the link as saved if another link just like it has been saved.
+  if (linkId) {
+    existingLinks = document.getElementsByClassName('read-link-later-' + linkId);
+    for (var i = 0, existingLength = existingLinks.length; i < existingLength; i++) {
+      if (existingLinks[i].hasAttribute('data-read-link-later')) {
+        markLinkSaved(link);
+        break;
+      }
+    }
+  }
+  
   listElement.insertBefore(link, listElement.firstChild);
 }
 
@@ -100,14 +112,24 @@ function sendAddToInstapaperRequest(event) {
 function onInstapaperReturn(response) {
   if (response && response.status && response.status == 201 && response.senderId) {
     var links = document.getElementsByClassName(response.senderId);
-    for (var i = 0, linksLength = links.length; i < linksLength; i++) {
-      var link = links[i];
-      link.onclick = absolutelyNothing;
-      link.onmouseover = null;
-      link.onmouseout = null;
-      link.getElementsByTagName('i')[0].style.backgroundImage = "url(" + chrome.extension.getURL("images/starred.png") + ")";
-    }
+    for (var i = 0, linksLength = links.length; i < linksLength; i++)
+      markLinkSaved(links[i]);
   }
+}
+
+/**
+ * Marks link as saved. Removes hover and click events, sets
+ * 'data-read-link-later' to true, and sets the background image of its icon
+ * to the filled-in star.
+ *
+ * @param {HTMLElement} link The link to mark saved.
+ */
+function markLinkSaved(link) {
+  link.setAttribute('data-read-link-later', "true");
+  link.onclick = absolutelyNothing;
+  link.onmouseover = null;
+  link.onmouseout = null;
+  link.getElementsByTagName('i')[0].style.backgroundImage = "url(" + chrome.extension.getURL("images/starred.png") + ")";
 }
 
 /**
