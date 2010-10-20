@@ -8,8 +8,11 @@
 function prependReadLaterLinkTo(listElement, linkId) {
   // Create the Read Later link
   var link = document.createElement('a');
-  if (linkId) link.id = 'read-link-later-' + linkId;
   link.className = "read-link-later";
+  if (linkId) {
+    link.className += " read-link-later-" + linkId;
+    link.setAttribute('data-tweet-id', linkId);
+  }
   link.href = "#";
   link.title = "Add to Instapaper";
   link.onclick = sendAddToInstapaperRequest;
@@ -78,13 +81,11 @@ function sendAddToInstapaperRequest(event) {
   // Find URLs in tweet
   // div.tweet-content > div.tweet-row > span.tweet-actions > a.read-link-later
   var readLinkLaterAnchor = findAnchorFromTarget(event.target),
-      links = readLinkLaterAnchor.parentNode.parentNode.parentNode.getElementsByClassName('twitter-timeline-link'),
-      linksLength = links.length;
-  if (!linksLength) return;
-  for (var i = 0; i < linksLength; i++) {
+      links = readLinkLaterAnchor.parentNode.parentNode.parentNode.getElementsByClassName('twitter-timeline-link');
+  for (var i = 0, linksLength = links.length; i < linksLength; i++) {
     request = {'action': 'addToInstapaper',
                'readLaterUrl': links[i].href,
-               'senderId': readLinkLaterAnchor.id};
+               'senderId': 'read-link-later-' + readLinkLaterAnchor.getAttribute('data-tweet-id')};
     chrome.extension.sendRequest(request, onInstapaperReturn);
   }
 }
@@ -98,11 +99,14 @@ function sendAddToInstapaperRequest(event) {
  */
 function onInstapaperReturn(response) {
   if (response && response.status && response.status == 201 && response.senderId) {
-    var link = document.getElementById(response.senderId);
-    link.onclick = absolutelyNothing;
-    link.onmouseover = null;
-    link.onmouseout = null;
-    link.getElementsByTagName('i')[0].style.backgroundImage = "url(" + chrome.extension.getURL("images/starred.png") + ")";
+    var links = document.getElementsByClassName(response.senderId);
+    for (var i = 0, linksLength = links.length; i < linksLength; i++) {
+      var link = links[i];
+      link.onclick = absolutelyNothing;
+      link.onmouseover = null;
+      link.onmouseout = null;
+      link.getElementsByTagName('i')[0].style.backgroundImage = "url(" + chrome.extension.getURL("images/starred.png") + ")";
+    }
   }
 }
 
@@ -118,9 +122,8 @@ function absolutelyNothing(event) {
  * Prepend a "Read Later" link to the action lists of tweets with URLs.
  */
 function findAndPrependLinksToTweets() {
-  var tweets = document.getElementsByClassName('stream-item'),
-      tweetsLength = tweets.length;
-  for (var i = 0; i < tweetsLength; i++) {
+  var tweets = document.getElementsByClassName('tweet');
+  for (var i = 0, tweetsLength = tweets.length; i < tweetsLength; i++) {
     var tweet = tweets[i],
         statusBody = tweet.getElementsByClassName('tweet-text')[0],
         links = statusBody.getElementsByClassName('twitter-timeline-link');
@@ -134,7 +137,7 @@ function findAndPrependLinksToTweets() {
     // Skip the status if it already has a read link later link
     if (actionsList.getElementsByClassName('read-link-later').length) continue;
   
-    prependReadLaterLinkTo(actionsList, tweet.getAttribute('data-item-id'));
+    prependReadLaterLinkTo(actionsList, tweet.getAttribute('data-tweet-id'));
   }
   
   // Set this function to run again.
