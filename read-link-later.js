@@ -114,20 +114,32 @@ function absolutelyNothing(event) {
   event.preventDefault();
 }
 
-// Prepend a "Read Later" link to the action lists of tweets with URLs.
-var tweets = document.getElementsByClassName('stream-item'),
-    tweetsLength = tweets.length;
-for (var i = 0; i < tweetsLength; i++) {
-  var tweet = tweets[i],
-      statusBody = tweet.getElementsByClassName('tweet-text')[0],
-      links = statusBody.getElementsByClassName('twitter-timeline-link');
-  // Skip the status if it doesn't have a URL
-  if (!links.length) continue;
+/**
+ * Prepend a "Read Later" link to the action lists of tweets with URLs.
+ */
+function findAndPrependLinksToTweets() {
+  var tweets = document.getElementsByClassName('stream-item'),
+      tweetsLength = tweets.length;
+  for (var i = 0; i < tweetsLength; i++) {
+    var tweet = tweets[i],
+        statusBody = tweet.getElementsByClassName('tweet-text')[0],
+        links = statusBody.getElementsByClassName('twitter-timeline-link');
+    // Skip the status if it doesn't have a URL
+    if (!links.length) continue;
   
-  // Find the actions list (Reply, Retweet)
-  var actionsList = tweet.getElementsByClassName('tweet-actions');
-  if (!actionsList.length) continue;
-  actionsList = actionsList[0];
+    // Find the actions list (Reply, Retweet)
+    var actionsList = tweet.getElementsByClassName('tweet-actions');
+    if (!actionsList.length) continue;
+    actionsList = actionsList[0];
+    // Skip the status if it already has a read link later link
+    if (actionsList.getElementsByClassName('read-link-later').length) continue;
   
-  prependReadLaterLinkTo(actionsList, tweet.getAttribute('data-item-id'));
+    prependReadLaterLinkTo(actionsList, tweet.getAttribute('data-item-id'));
+  }
+  
+  // Set this function to run again.
+  // TODO: Better way of doing this? Events?
+  setTimeout(findAndPrependLinksToTweets, 100);
 }
+
+findAndPrependLinksToTweets();
