@@ -1,6 +1,6 @@
 {
   "name": "Read Link Later",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Read Link Later allows you to save URLs in your Twitter feed to Instapaper.",
   "icons": {
 	  "16": "images/read-link-later-icon-16.png",
