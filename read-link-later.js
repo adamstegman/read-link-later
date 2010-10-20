@@ -8,27 +8,26 @@
 function prependReadLaterLinkTo(listElement, linkId) {
   // Create the Read Later link
   var link = document.createElement('a');
-  if (linkId) link.id = linkId;
+  if (linkId) link.id = 'read-link-later-' + linkId;
+  link.className = "read-link-later";
   link.href = "#";
   link.title = "Add to Instapaper";
-  link.appendChild(document.createTextNode("Read Later"));
   link.onclick = sendAddToInstapaperRequest;
   link.onmouseover = replaceBackgroundWithUnstarred;
   link.onmouseout = replaceBackgroundWithFadedUnstarred;
   
-  var iconSpan = document.createElement('span');
-  iconSpan.className = "read-link-later-icon icon";
-  iconSpan.style.backgroundImage = "url(" + chrome.extension.getURL("images/unstarred-faded.png") + ")";
+  var icon = document.createElement('i');
+  icon.style.backgroundImage = "url(" + chrome.extension.getURL("images/unstarred-faded.png") + ")";
+  
+  var text = document.createElement('b');
+  text.appendChild(document.createTextNode("Read Later"));
   
   var span = document.createElement('span');
-  span.className = "read-link-later";
-  span.appendChild(iconSpan);
-  span.appendChild(link);
+  span.appendChild(icon);
+  span.appendChild(text);
   
-  var li = document.createElement('li');
-  li.appendChild(span);
-  
-  listElement.insertBefore(li, listElement.firstChild);
+  link.appendChild(span);
+  listElement.insertBefore(link, listElement.firstChild);
 }
 
 /**
@@ -100,19 +99,19 @@ function absolutelyNothing(event) {
 }
 
 // Prepend a "Read Later" link to the action lists of tweets with URLs.
-var tweets = document.getElementsByClassName('status-body'),
+var tweets = document.getElementsByClassName('stream-item'),
     tweetsLength = tweets.length;
 for (var i = 0; i < tweetsLength; i++) {
-  var statusBody = tweets[i];
+  var tweet = tweets[i],
+      statusBody = tweet.getElementsByClassName('tweet-text')[0],
+      links = statusBody.getElementsByClassName('twitter-timeline-link');
   // Skip the status if it doesn't have a URL
-  var links = statusBody.getElementsByClassName('tweet-url web');
   if (!links.length) continue;
   
-  // Find the actions hover list (Reply, Retweet)
-  var actionsHoverList = statusBody.getElementsByClassName('actions-hover');
-  if (!actionsHoverList.length) continue;
-  actionsHoverList = actionsHoverList[0];
+  // Find the actions list (Reply, Retweet)
+  var actionsList = tweet.getElementsByClassName('tweet-actions');
+  if (!actionsList.length) continue;
+  actionsList = actionsList[0];
   
-  prependReadLaterLinkTo(actionsHoverList,
-                         statusBody.parentNode.id.replace('status', 'read-link-later'));
+  prependReadLaterLinkTo(actionsList, tweet.getAttribute('data-item-id'));
 }

@@ -15,7 +15,6 @@
         "https://*.twitter.com/*"
       ],
       "js": ["read-link-later.js"],
-      "css": ["read-link-later.css"]
     }
   ],
   "options_page": "options.html",
