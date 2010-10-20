@@ -31,14 +31,29 @@ function prependReadLaterLinkTo(listElement, linkId) {
 }
 
 /**
+ * Given an event target, traverses up the DOM to find its parent anchor tag.
+ *
+ * @param {HTMLElement} target An element that is a descendant of an anchor.
+ *
+ * @return {HTMLElement} The closest anchor ancestor of target.
+ */
+function findAnchorFromTarget(target) {
+  // just in case
+  if (!target) return target;
+  
+  if (target.tagName == 'A') return target;
+  else return findAnchorFromTarget(target.parentNode);
+}
+
+/**
  * Replaces the background of the previous element with the regular unstarred
  * image.
  *
  * @param {Event} event The Event object sent by the onmouseover event.
  */
 function replaceBackgroundWithUnstarred(event) {
-  var iconSpan = event.target.previousSibling;
-  iconSpan.style.backgroundImage = "url(" + chrome.extension.getURL("images/unstarred.png") + ")";
+  var icon = findAnchorFromTarget(event.target).getElementsByTagName('i')[0];
+  icon.style.backgroundImage = "url(" + chrome.extension.getURL("images/unstarred.png") + ")";
 }
 
 /**
@@ -48,8 +63,8 @@ function replaceBackgroundWithUnstarred(event) {
  * @param {Event} event The Event object sent by the onmouseout event.
  */
 function replaceBackgroundWithFadedUnstarred(event) {
-  var iconSpan = event.target.previousSibling;
-  iconSpan.style.backgroundImage = "url(" + chrome.extension.getURL("images/unstarred-faded.png") + ")";
+  var icon = findAnchorFromTarget(event.target).getElementsByTagName('i')[0];
+  icon.style.backgroundImage = "url(" + chrome.extension.getURL("images/unstarred-faded.png") + ")";
 }
 
 /**
@@ -61,14 +76,15 @@ function sendAddToInstapaperRequest(event) {
   event.preventDefault();
   
   // Find URLs in tweet
-  // span.status-body > ul.actions-hover > li > span.read-link-later > a
-  var links = event.target.parentNode.parentNode.parentNode.parentNode.getElementsByClassName('tweet-url web'),
+  // div.tweet-content > div.tweet-row > span.tweet-actions > a.read-link-later
+  var readLinkLaterAnchor = findAnchorFromTarget(event.target),
+      links = readLinkLaterAnchor.parentNode.parentNode.parentNode.getElementsByClassName('twitter-timeline-link'),
       linksLength = links.length;
   if (!linksLength) return;
   for (var i = 0; i < linksLength; i++) {
     request = {'action': 'addToInstapaper',
                'readLaterUrl': links[i].href,
-               'senderId': event.target.id};
+               'senderId': readLinkLaterAnchor.id};
     chrome.extension.sendRequest(request, onInstapaperReturn);
   }
 }
@@ -86,7 +102,7 @@ function onInstapaperReturn(response) {
     link.onclick = absolutelyNothing;
     link.onmouseover = null;
     link.onmouseout = null;
-    link.previousSibling.style.backgroundImage = "url(" + chrome.extension.getURL("images/starred.png") + ")";
+    link.getElementsByTagName('i')[0].style.backgroundImage = "url(" + chrome.extension.getURL("images/starred.png") + ")";
   }
 }
 
